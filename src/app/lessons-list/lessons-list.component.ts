@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {globalEventBus, Observer, LESSONS_LIST_AVAILABLE, ADD_NEW_LESSON} from "../event-bus-experiments/event-bus";
-import {Lesson} from "../shared/model/lesson";
+import { Component, OnInit } from '@angular/core';
+import { lessonsList$, Observer } from "../event-bus-experiments/app-data";
+import { Lesson } from "../shared/model/lesson";
 import * as _ from 'lodash';
 
 @Component({
@@ -8,25 +8,17 @@ import * as _ from 'lodash';
     templateUrl: './lessons-list.component.html',
     styleUrls: ['./lessons-list.component.css']
 })
-export class LessonsListComponent implements Observer {
+export class LessonsListComponent implements Observer, OnInit {
 
-    lessons: Lesson[] =[];
+    lessons: Lesson[] = [];
 
-    constructor() {
-        console.log('lesson list component is registered as observer ..');
-        globalEventBus.registerObserver(LESSONS_LIST_AVAILABLE, this);
-
-        globalEventBus.registerObserver(ADD_NEW_LESSON, {
-            notify: lessonText => {
-                this.lessons.push({
-                    id: Math.random(),
-                    description: lessonText
-                })
-            }
-        } );
+    ngOnInit() {
+        console.log('lesson list component is registered as observer ..'); 
+        lessonsList$.subscribe(this);
     }
 
-    notify(data: Lesson[]) {
+
+    next(data: Lesson[]) {
         console.log('Lessons list component received data ..');
         this.lessons = data.slice(0);
     }
