@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { lessonsList$, Observer } from "../event-bus-experiments/app-data";
+import { Observer, store } from "../event-bus-experiments/app-data";
 import { Lesson } from "../shared/model/lesson";
 
 @Component({
@@ -7,20 +7,21 @@ import { Lesson } from "../shared/model/lesson";
   templateUrl: './lessons-counter.component.html',
   styleUrls: ['./lessons-counter.component.css']
 })
-export class LessonsCounterComponent implements Observer  {
+export class LessonsCounterComponent implements Observer, OnInit  {
 
-    lessonsCounter = 0;
+  lessonsCounter = 0;
 
-    constructor() {
-        console.log('lesson list component is registered as observer ..');
+  constructor() {
+  }
 
-        lessonsList$.subscribe(this);
+  ngOnInit() {
+    console.log('lesson list component is registered as observer ..');
+    store.subscribe(this);
+  }
 
-    }
-
-    next(data: Lesson[]) {
-        console.log('counter component received data ..');
-        this.lessonsCounter = data.length;
-    }
+  next(data: Lesson[]) {
+    console.log('counter component received data ..');
+    this.lessonsCounter = data.length;
+  }
 
 }
