@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Course} from "../shared/model/course";
 import {Lesson} from "../shared/model/lesson";
 import * as _ from 'lodash';
+import {CoursesService} from "../services/courses.service";
 
 
 @Component({
@@ -16,34 +17,21 @@ export class CourseDetailComponent implements OnInit {
   course: Course;
   lessons: Lesson[];
 
-  constructor(private route: ActivatedRoute, private db: AngularFireDatabase) {
-
+  constructor(private route: ActivatedRoute,
+    private coursesService: CoursesService) {
 
       route.params
-          .subscribe( params => {
+        .subscribe( params => {
+          const courseUrl = params['id'];
 
-              const courseUrl = params['id'];
-
-              this.db.list('courses', {
-                  query: {
-                      orderByChild: 'url',
-                      equalTo: courseUrl
-                  }
-              })
-              .map( data => data[0])
-              .subscribe(data => {
-                  this.course = data;
-
-                  this.db.list('lessons', {
-                          query: {
-                              orderByChild: 'courseId',
-                              equalTo: data.$key
-                          }
-                      })
-                      .subscribe(lessons => this.lessons = lessons);
-              });
-
+          this.coursesService.findCourseByUrl(courseUrl)
+            .subscribe(data => {
+              this.course = data;
+              
+              this.coursesService.findLessonsForCourse(this.course.id)
+                .subscribe(lessons => this.lessons = lessons);
           });
+      });
 
   }
 
