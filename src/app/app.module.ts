@@ -14,6 +14,7 @@ import {RouterModule} from '@angular/router';
 import {routerConfig} from "./router.config";
 import { CourseDetailComponent } from './course-detail/course-detail.component';
 import {CoursesService} from "./services/courses.service";
+import {UserService} from "./services/user.service";
 import { CoursesListComponent } from './courses-list/courses-list.component';
 import { CourseDetailHeaderComponent } from './course-detail-header/course-detail-header.component';
 import { NewsletterComponent } from './newsletter/newsletter.component';
@@ -45,7 +46,8 @@ import { LoginComponent } from './login/login.component';
   ],
   providers: [
       CoursesService,
-      NewsletterService
+      NewsletterService,
+      UserService
   ],
   bootstrap: [AppComponent]
 })
