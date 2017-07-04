@@ -17,14 +17,14 @@ export class CourseDetailHeaderComponent {
     @Input()
     lessons: Lesson[];
 
-    @Input()
-    firstName:string;
+    // @Input()
+    // firstName:string;
 
-    @Output()
-    subscribe = new EventEmitter();
+    // @Output()
+    // subscribe = new EventEmitter();
 
-    onSubscribe(email:string) {
-        this.subscribe.emit(email);
-    }
+    // onSubscribe(email:string) {
+    //     this.subscribe.emit(email);
+    // }
 
 }
